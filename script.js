@@ -1,4 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const path = window.location.pathname.toLowerCase();
+  const pageClassMap = [
+    { key: "services", className: "page-services", textMode: "impact-wave" },
+    { key: "about", className: "page-about", textMode: "impact-glow" },
+    { key: "projects", className: "page-projects", textMode: "impact-wave" },
+    { key: "contact", className: "page-contact", textMode: "impact-glow" }
+  ];
+  const matchedPage = pageClassMap.find((entry) => path.includes(entry.key));
+  if (matchedPage) {
+    document.body.classList.add(matchedPage.className);
+  } else {
+    document.body.classList.add("page-home");
+  }
+
   document.body.classList.add("is-entering");
 
   const textTargets = document.querySelectorAll("h1, h2, .badge");
@@ -14,6 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     element.classList.add("text-reveal");
+    element.classList.add(matchedPage?.textMode || "impact-rise");
+    element.classList.add("impact-hover");
     element.setAttribute("aria-label", trimmed);
     element.textContent = "";
 
@@ -22,20 +38,47 @@ document.addEventListener("DOMContentLoaded", () => {
     hiddenText.textContent = trimmed;
     element.appendChild(hiddenText);
 
-    [...trimmed].forEach((character, charIndex) => {
-      const charSpan = document.createElement("span");
-      charSpan.className = "char";
-      charSpan.style.setProperty("--char-index", String(charIndex));
-      charSpan.style.setProperty("--char-base-delay", `${groupIndex * 110}ms`);
-      charSpan.textContent = character === " " ? "\u00A0" : character;
-      charSpan.setAttribute("aria-hidden", "true");
-      element.appendChild(charSpan);
+    const words = trimmed.split(" ");
+    let charCounter = 0;
+
+    words.forEach((word, wordIndex) => {
+      const wordSpan = document.createElement("span");
+      wordSpan.className = "word";
+      wordSpan.setAttribute("aria-hidden", "true");
+
+      [...word].forEach((character) => {
+        const charSpan = document.createElement("span");
+        charSpan.className = "char";
+        charSpan.style.setProperty("--char-index", String(charCounter));
+        charSpan.style.setProperty("--char-base-delay", `${groupIndex * 110}ms`);
+        charSpan.textContent = character;
+        charSpan.setAttribute("aria-hidden", "true");
+        wordSpan.appendChild(charSpan);
+        charCounter += 1;
+      });
+
+      element.appendChild(wordSpan);
+
+      if (wordIndex < words.length - 1) {
+        const spaceSpan = document.createElement("span");
+        spaceSpan.className = "word-space";
+        spaceSpan.textContent = "\u00A0";
+        spaceSpan.setAttribute("aria-hidden", "true");
+        element.appendChild(spaceSpan);
+      }
     });
   });
 
   requestAnimationFrame(() => {
     document.body.classList.remove("is-entering");
     document.body.classList.add("is-ready");
+  });
+
+  document.addEventListener("pointermove", (event) => {
+    const x = (event.clientX / window.innerWidth) * 100;
+    const y = (event.clientY / window.innerHeight) * 100;
+    document.body.style.setProperty("--mx", `${x}%`);
+    document.body.style.setProperty("--my", `${y}%`);
   });
 
   const yearNodes = document.querySelectorAll("[data-year]");
@@ -155,6 +198,34 @@ document.addEventListener("DOMContentLoaded", () => {
       card.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)";
     });
   });
+
+  const magneticButtons = document.querySelectorAll(".btn");
+  magneticButtons.forEach((button) => {
+    button.classList.add("magnetic");
+    button.addEventListener("mousemove", (event) => {
+      const rect = button.getBoundingClientRect();
+      const dx = event.clientX - (rect.left + rect.width / 2);
+      const dy = event.clientY - (rect.top + rect.height / 2);
+      button.style.transform = `translate(${dx * 0.12}px, ${dy * 0.12}px)`;
+    });
+    button.addEventListener("mouseleave", () => {
+      button.style.transform = "translate(0, 0)";
+    });
+  });
+
+  const header = document.querySelector(".site-header");
+  let lastScrollY = window.scrollY;
+  if (header) {
+    window.addEventListener("scroll", () => {
+      const currentY = window.scrollY;
+      if (currentY > 130 && currentY > lastScrollY) {
+        header.classList.add("nav-hidden");
+      } else {
+        header.classList.remove("nav-hidden");
+      }
+      lastScrollY = currentY;
+    }, { passive: true });
+  }
 
   const toTopButton = document.createElement("button");
   toTopButton.className = "to-top-btn";
