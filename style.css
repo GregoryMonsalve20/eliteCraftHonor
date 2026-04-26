@@ -1,15 +1,15 @@
 /* Global reset and theme */
 :root {
-  --bg: #070a12;
-  --bg-soft: #0f1726;
-  --card: #111a2e;
-  --text: #e9eefb;
-  --muted: #9ba7c5;
-  --brand: #5bc0ff;
-  --brand-strong: #2f9bde;
-  --accent: #b59bff;
-  --line: #24324f;
-  --success: #66d6a6;
+  --bg: #080a10;
+  --bg-soft: #11141d;
+  --card: #151925;
+  --text: #f5f2ea;
+  --muted: #b6ad9a;
+  --brand: #d4a64f;
+  --brand-strong: #b98a36;
+  --accent: #f0cc86;
+  --line: #2a2f3e;
+  --success: #84d1a0;
   --shadow: 0 20px 45px rgba(4, 8, 17, 0.45);
   --radius: 18px;
 }
@@ -145,13 +145,13 @@ a {
 
 .btn-primary {
   background: linear-gradient(120deg, var(--brand), var(--brand-strong));
-  color: #01101d;
-  box-shadow: 0 10px 25px rgba(47, 155, 222, 0.35);
+  color: #1c1202;
+  box-shadow: 0 12px 26px rgba(185, 138, 54, 0.35);
 }
 
 .btn-primary:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.04);
+  transform: translateY(-2px) scale(1.01);
+  filter: brightness(1.08);
 }
 
 .btn-ghost {
@@ -163,6 +163,17 @@ a {
 .btn-ghost:hover {
   border-color: var(--brand);
   color: var(--brand);
+}
+
+.btn-contact {
+  border-color: rgba(212, 166, 79, 0.65);
+  color: #f7e7c4;
+  background: rgba(212, 166, 79, 0.12);
+}
+
+.btn-contact:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 /* Page sections */
@@ -273,6 +284,12 @@ h2 {
 
 .section {
   padding: 28px 0 70px;
+}
+
+.section-alt {
+  background: rgba(10, 12, 20, 0.7);
+  border-top: 1px solid rgba(182, 173, 154, 0.15);
+  border-bottom: 1px solid rgba(182, 173, 154, 0.15);
 }
 
 .cards {
@@ -400,6 +417,48 @@ h2 {
   padding: 18px;
 }
 
+.estimate-form {
+  display: grid;
+  gap: 10px;
+}
+
+.estimate-form label {
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.estimate-form input,
+.estimate-form select,
+.estimate-form textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: rgba(10, 14, 25, 0.9);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 11px 12px;
+  font: inherit;
+}
+
+.estimate-form input:focus,
+.estimate-form select:focus,
+.estimate-form textarea:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 2px rgba(212, 166, 79, 0.18);
+}
+
+.form-note {
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
+.form-success {
+  color: var(--success);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
 .service-list {
   display: grid;
   gap: 16px;
@@ -454,6 +513,50 @@ h2 {
   display: grid;
   gap: 14px;
   grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.trust-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.trust-item {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.trust-item h3 {
+  font-size: 1.02rem;
+  margin-bottom: 6px;
+}
+
+.trust-item p {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.project-placeholder {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: linear-gradient(150deg, rgba(22, 26, 39, 0.95), rgba(15, 18, 29, 0.95));
+  min-height: 155px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.project-placeholder small {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.contact-strong {
+  background: linear-gradient(140deg, rgba(212, 166, 79, 0.12), rgba(16, 19, 30, 0.9));
+  border: 1px solid rgba(212, 166, 79, 0.35);
 }
 
 .plan-step {
@@ -571,7 +674,8 @@ footer {
   .projects,
   .service-list,
   .contact-grid,
-  .plan-grid {
+  .plan-grid,
+  .trust-grid {
     grid-template-columns: 1fr;
   }
 

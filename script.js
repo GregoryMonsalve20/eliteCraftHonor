@@ -58,6 +58,62 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const trackEvent = (eventName, details = {}) => {
+    const payload = {
+      event: eventName,
+      page: window.location.pathname,
+      timestamp: new Date().toISOString(),
+      ...details
+    };
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(payload);
+    // Keeps a lightweight local trail for future optimization.
+    try {
+      const existing = JSON.parse(localStorage.getItem("ech_events") || "[]");
+      existing.push(payload);
+      localStorage.setItem("ech_events", JSON.stringify(existing.slice(-50)));
+    } catch (error) {
+      // Ignore storage errors and keep site behavior uninterrupted.
+    }
+  };
+
+  const trackedCtas = document.querySelectorAll("[data-track]");
+  trackedCtas.forEach((cta) => {
+    cta.addEventListener("click", () => {
+      trackEvent(cta.dataset.track, { label: cta.textContent?.trim() || "" });
+    });
+  });
+
+  const estimateForm = document.querySelector("[data-estimate-form]");
+  if (estimateForm instanceof HTMLFormElement) {
+    estimateForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(estimateForm);
+      const fullName = String(formData.get("fullName") || "");
+      const phone = String(formData.get("phone") || "");
+      const email = String(formData.get("email") || "");
+      const service = String(formData.get("service") || "");
+      const city = String(formData.get("city") || "");
+      const details = String(formData.get("details") || "");
+
+      const subject = encodeURIComponent(`Free Estimate Request - ${service}`);
+      const body = encodeURIComponent(
+        `Name: ${fullName}\nPhone: ${phone}\nEmail: ${email}\nService: ${service}\nCity/Town: ${city}\n\nProject Details:\n${details}`
+      );
+
+      trackEvent("estimate-form-submit", { service, city });
+
+      const successMessage = estimateForm.querySelector("[data-form-success]");
+      if (successMessage instanceof HTMLElement) {
+        successMessage.hidden = false;
+      }
+
+      window.location.href = `mailto:gmonsalve@elitecrafthonor.com?subject=${subject}&body=${body}`;
+    });
+  }
+
   const revealItems = document.querySelectorAll(".is-reveal");
   if (revealItems.length) {
     revealItems.forEach((item, index) => {
