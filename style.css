@@ -693,22 +693,6 @@ body.page-contact .page-banner::before {
   background: linear-gradient(140deg, rgba(201, 154, 74, 0.12), rgba(24, 17, 12, 0.9));
   border: 1px solid rgba(201, 154, 74, 0.35);
   position: relative;
-  overflow: hidden;
-}
-
-.contact-strong::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(150deg, rgba(6, 9, 14, 0.68), rgba(6, 9, 14, 0.82)),
-    url("images/values.png") center/cover no-repeat;
-  z-index: 0;
-}
-
-.contact-strong > * {
-  position: relative;
-  z-index: 1;
 }
 
 .trust-brand {
