@@ -13,6 +13,115 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("page-home");
   }
 
+  const fileName = path.split("/").pop() || "index.html";
+  const guideLinks = [
+    { href: "index.html", label: "Home", match: ["index.html", ""] },
+    { href: "services.html", label: "Services", match: ["services.html"] },
+    { href: "about.html", label: "About", match: ["about.html"] },
+    { href: "projects.html", label: "Gallery", match: ["projects.html"] },
+    { href: "contact.html", label: "Contact", match: ["contact.html"] }
+  ];
+  const serviceLinks = [
+    { href: "painting.html", label: "Painting" },
+    { href: "carpentry.html", label: "Carpentry" },
+    { href: "handyman.html", label: "Handyman" },
+    { href: "demolition-cleanup.html", label: "Demolition & Cleanup" },
+    { href: "flooring-tile.html", label: "Flooring & Tile" },
+    { href: "doors-trim-small-projects.html", label: "Doors & Trim" },
+    { href: "interior-painting.html", label: "Interior Painting" },
+    { href: "exterior-painting.html", label: "Exterior Painting" },
+    { href: "millwork.html", label: "Millwork" },
+    { href: "cabinetry.html", label: "Cabinetry" },
+    { href: "baseboard.html", label: "Baseboard" },
+    { href: "trim.html", label: "Trim Work" }
+  ];
+
+  const isActiveHref = (href, matchList = [href]) =>
+    matchList.some((item) => fileName === item || path.endsWith(`/${item}`));
+
+  const sidebar = document.createElement("aside");
+  sidebar.className = "site-guide";
+  sidebar.setAttribute("aria-label", "Site guide");
+  sidebar.innerHTML = `
+    <button class="site-guide-toggle" type="button" aria-expanded="false" aria-controls="site-guide-panel">
+      Menu
+    </button>
+    <div class="site-guide-panel" id="site-guide-panel">
+      <p class="site-guide-title">Site Guide</p>
+      <nav class="site-guide-nav" aria-label="Main pages">
+        ${guideLinks
+          .map(
+            (link) =>
+              `<a href="${link.href}" class="${isActiveHref(link.href, link.match) ? "is-active" : ""}">${link.label}</a>`
+          )
+          .join("")}
+      </nav>
+      <p class="site-guide-title site-guide-title-sub">Services</p>
+      <nav class="site-guide-nav site-guide-services" aria-label="Service pages">
+        ${serviceLinks
+          .map(
+            (link) =>
+              `<a href="${link.href}" class="${isActiveHref(link.href) ? "is-active" : ""}">${link.label}</a>`
+          )
+          .join("")}
+      </nav>
+      <a class="btn btn-primary site-guide-cta" href="contact.html#estimate-form">Free Estimate</a>
+    </div>
+  `;
+  document.body.prepend(sidebar);
+  document.body.classList.add("has-site-guide");
+
+  const guideToggle = sidebar.querySelector(".site-guide-toggle");
+  if (guideToggle) {
+    guideToggle.addEventListener("click", () => {
+      const open = document.body.classList.toggle("guide-open");
+      guideToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      guideToggle.textContent = open ? "Close" : "Menu";
+    });
+  }
+
+  const isMobileGuide = () => window.matchMedia("(max-width: 960px)").matches;
+  let guideCloseTimer = null;
+
+  const openGuide = () => {
+    if (isMobileGuide()) {
+      return;
+    }
+    clearTimeout(guideCloseTimer);
+    document.body.classList.add("guide-open");
+  };
+
+  const scheduleCloseGuide = () => {
+    if (isMobileGuide()) {
+      return;
+    }
+    clearTimeout(guideCloseTimer);
+    guideCloseTimer = setTimeout(() => {
+      document.body.classList.remove("guide-open");
+    }, 160);
+  };
+
+  document.addEventListener(
+    "pointermove",
+    (event) => {
+      if (isMobileGuide()) {
+        return;
+      }
+      const guideOpen = document.body.classList.contains("guide-open");
+      const nearLeftEdge = event.clientX <= 28;
+      const insideGuide = event.clientX <= (guideOpen ? 250 : 28);
+      if (nearLeftEdge || insideGuide) {
+        openGuide();
+      } else {
+        scheduleCloseGuide();
+      }
+    },
+    { passive: true }
+  );
+
+  sidebar.addEventListener("pointerenter", openGuide);
+  sidebar.addEventListener("pointerleave", scheduleCloseGuide);
+
   document.body.classList.add("is-entering");
 
   const textTargets = document.querySelectorAll("h1, h2, .badge");
@@ -111,7 +220,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(payload);
-    // Keeps a lightweight local trail for future optimization.
     try {
       const existing = JSON.parse(localStorage.getItem("ech_events") || "[]");
       existing.push(payload);
