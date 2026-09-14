@@ -1,7 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   const path = window.location.pathname.toLowerCase();
+  const parts = path.replace(/\/+$/, "").split("/").filter(Boolean);
+  const fileName = parts[parts.length - 1] || "index.html";
+  const dirDepth = fileName.includes(".") ? Math.max(parts.length - 1, 0) : parts.length;
+  const root = "../".repeat(dirDepth);
+
   const pageClassMap = [
     { key: "services", className: "page-services", textMode: "impact-wave" },
+    { key: "locations", className: "page-services", textMode: "impact-wave" },
     { key: "about", className: "page-about", textMode: "impact-glow" },
     { key: "projects", className: "page-projects", textMode: "impact-wave" },
     { key: "contact", className: "page-contact", textMode: "impact-glow" }
@@ -9,35 +15,38 @@ document.addEventListener("DOMContentLoaded", () => {
   const matchedPage = pageClassMap.find((entry) => path.includes(entry.key));
   if (matchedPage) {
     document.body.classList.add(matchedPage.className);
-  } else {
+  } else if (!document.body.className.includes("page-")) {
     document.body.classList.add("page-home");
   }
 
-  const fileName = path.split("/").pop() || "index.html";
   const guideLinks = [
-    { href: "index.html", label: "Home", match: ["index.html", ""] },
-    { href: "services.html", label: "Services", match: ["services.html"] },
-    { href: "about.html", label: "About", match: ["about.html"] },
-    { href: "projects.html", label: "Gallery", match: ["projects.html"] },
-    { href: "contact.html", label: "Contact", match: ["contact.html"] }
+    { href: `${root}index.html`, label: "Home", match: ["index.html", ""] },
+    { href: `${root}services.html`, label: "Services", match: ["services.html"] },
+    { href: `${root}locations/index.html`, label: "Service Areas", match: ["locations"] },
+    { href: `${root}about.html`, label: "About", match: ["about.html"] },
+    { href: `${root}projects.html`, label: "Gallery", match: ["projects.html"] },
+    { href: `${root}contact.html`, label: "Contact", match: ["contact.html"] }
   ];
   const serviceLinks = [
-    { href: "painting.html", label: "Painting" },
-    { href: "carpentry.html", label: "Carpentry" },
-    { href: "handyman.html", label: "Handyman" },
-    { href: "demolition-cleanup.html", label: "Demolition & Cleanup" },
-    { href: "flooring-tile.html", label: "Flooring & Tile" },
-    { href: "doors-trim-small-projects.html", label: "Doors & Trim" },
-    { href: "interior-painting.html", label: "Interior Painting" },
-    { href: "exterior-painting.html", label: "Exterior Painting" },
-    { href: "millwork.html", label: "Millwork" },
-    { href: "cabinetry.html", label: "Cabinetry" },
-    { href: "baseboard.html", label: "Baseboard" },
-    { href: "trim.html", label: "Trim Work" }
+    { href: `${root}services/painting.html`, label: "Painting" },
+    { href: `${root}interior-painting.html`, label: "Interior Painting" },
+    { href: `${root}exterior-painting.html`, label: "Exterior Painting" },
+    { href: `${root}services/carpentry.html`, label: "Carpentry" },
+    { href: `${root}services/trim-carpentry.html`, label: "Trim Carpentry" },
+    { href: `${root}services/cabinet-installation.html`, label: "Cabinets" },
+    { href: `${root}services/window-door-installation.html`, label: "Windows & Doors" },
+    { href: `${root}services/drywall.html`, label: "Drywall" },
+    { href: `${root}services/handyman.html`, label: "Handyman" },
+    { href: `${root}services/remodeling.html`, label: "Remodeling" },
+    { href: `${root}demolition-cleanup.html`, label: "Demolition & Cleanup" },
+    { href: `${root}flooring-tile.html`, label: "Flooring & Tile" }
   ];
 
   const isActiveHref = (href, matchList = [href]) =>
-    matchList.some((item) => fileName === item || path.endsWith(`/${item}`));
+    matchList.some((item) => {
+      const name = String(item).split("/").pop();
+      return fileName === name || path.includes(String(item).replace(/^\.\.\//, ""));
+    });
 
   const sidebar = document.createElement("aside");
   sidebar.className = "site-guide";
@@ -65,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
           )
           .join("")}
       </nav>
-      <a class="btn btn-primary site-guide-cta" href="contact.html#estimate-form">Free Estimate</a>
+      <a class="btn btn-primary site-guide-cta" href="${root}contact.html#estimate-form">Free Estimate</a>
     </div>
   `;
   document.body.prepend(sidebar);

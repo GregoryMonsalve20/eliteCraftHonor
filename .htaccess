@@ -1,0 +1,5 @@
+ErrorDocument 404 /404.html
+Redirect 301 /painting.html /services/painting.html
+Redirect 301 /carpentry.html /services/carpentry.html
+Redirect 301 /handyman.html /services/handyman.html
+Redirect 301 /cabinetry.html /services/cabinet-installation.html
