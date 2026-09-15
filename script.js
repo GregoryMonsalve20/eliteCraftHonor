@@ -1,3 +1,5 @@
+document.documentElement.classList.add("js-enabled");
+
 document.addEventListener("DOMContentLoaded", () => {
   const path = window.location.pathname.toLowerCase();
   const parts = path.replace(/\/+$/, "").split("/").filter(Boolean);
@@ -6,6 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const root = "../".repeat(dirDepth);
 
   const pageClassMap = [
+    { key: "custom-design", className: "custom-design-page", textMode: "impact-wave" },
+    { key: "custom-built-ins", className: "page-visualize", textMode: "impact-wave" },
+    { key: "makeup-vanity", className: "page-visualize", textMode: "impact-wave" },
+    { key: "tv-wall", className: "page-visualize", textMode: "impact-wave" },
+    { key: "floating-shelves", className: "page-visualize", textMode: "impact-wave" },
+    { key: "led-ceiling", className: "page-visualize", textMode: "impact-wave" },
+    { key: "team", className: "page-team", textMode: "impact-glow" },
     { key: "services", className: "page-services", textMode: "impact-wave" },
     { key: "locations", className: "page-services", textMode: "impact-wave" },
     { key: "about", className: "page-about", textMode: "impact-glow" },
@@ -25,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { href: `${root}locations/index.html`, label: "Service Areas", match: ["locations"] },
     { href: `${root}about.html`, label: "About", match: ["about.html"] },
     { href: `${root}projects.html`, label: "Gallery", match: ["projects.html"] },
+    { href: `${root}team.html`, label: "Team", match: ["team.html"] },
     { href: `${root}contact.html`, label: "Contact", match: ["contact.html"] }
   ];
   const serviceLinks = [
@@ -32,6 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
     { href: `${root}interior-painting.html`, label: "Interior Painting" },
     { href: `${root}exterior-painting.html`, label: "Exterior Painting" },
     { href: `${root}services/carpentry.html`, label: "Carpentry" },
+    { href: `${root}services/custom-built-ins.html`, label: "Custom Built-Ins" },
+    { href: `${root}services/custom-design.html`, label: "Custom Design" },
+    { href: `${root}services/makeup-vanity.html`, label: "Makeup Vanity" },
+    { href: `${root}services/tv-wall.html`, label: "TV Wall" },
+    { href: `${root}services/floating-shelves.html`, label: "Floating Shelves" },
+    { href: `${root}services/led-ceiling.html`, label: "LED Ceiling" },
     { href: `${root}services/trim-carpentry.html`, label: "Trim Carpentry" },
     { href: `${root}services/cabinet-installation.html`, label: "Cabinets" },
     { href: `${root}services/window-door-installation.html`, label: "Windows & Doors" },
@@ -135,6 +151,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const textTargets = document.querySelectorAll("h1, h2, .badge");
   textTargets.forEach((element, groupIndex) => {
+    if (element.closest(".home-pillars, .home-planning, .team-hero, .viz-hero, .home-hero, .ech-journey, .ech-finish-explorer, .ech-stage-tabs, .ech-testimonials, .ech-area-map, .team-cards-section, .ech-feature-hero, .ech-process, .ech-blueprint, .custom-design-page")) {
+      return;
+    }
+    if (element.matches("#ech-ba-heading, #ech-ba-gallery, #ech-journey-heading, #ech-finish-heading, #ech-stages-heading")) {
+      return;
+    }
     if (element.children.length > 0) {
       return;
     }
@@ -257,10 +279,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const service = String(formData.get("service") || "");
       const city = String(formData.get("city") || "");
       const details = String(formData.get("details") || "");
+      const timeline = String(formData.get("timeline") || "");
 
       const subject = encodeURIComponent(`Free Estimate Request - ${service}`);
       const body = encodeURIComponent(
-        `Name: ${fullName}\nPhone: ${phone}\nEmail: ${email}\nService: ${service}\nCity/Town: ${city}\n\nProject Details:\n${details}`
+        `Name: ${fullName}\nPhone: ${phone}\nEmail: ${email}\nService: ${service}\nCity/Town: ${city}` +
+          (timeline ? `\nDesired timeline: ${timeline}` : "") +
+          `\n\nProject Details:\n${details}`
       );
 
       trackEvent("estimate-form-submit", { service, city });
@@ -365,4 +390,16 @@ document.addEventListener("DOMContentLoaded", () => {
   toTopButton.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
+
+  const compare = document.querySelector("[data-compare]");
+  if (compare) {
+    const panes = [...compare.querySelectorAll(".viz-compare-pane")];
+    let index = 0;
+    const show = (next) => {
+      index = (next + panes.length) % panes.length;
+      panes.forEach((pane, i) => pane.classList.toggle("is-active", i === index));
+    };
+    compare.querySelector(".viz-prev")?.addEventListener("click", () => show(index - 1));
+    compare.querySelector(".viz-next")?.addEventListener("click", () => show(index + 1));
+  }
 });
