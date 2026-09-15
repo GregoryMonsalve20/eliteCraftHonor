@@ -28,6 +28,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="premium-interactions.css" />
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -130,32 +131,62 @@
         <article class="contact-card is-reveal">
           <h2>Request form</h2>
           <form id="estimate-form" class="estimate-form" data-estimate-form>
-            <label for="full-name">Full name</label>
-            <input id="full-name" name="fullName" type="text" autocomplete="name" required />
-            <label for="phone">Phone number</label>
-            <input id="phone" name="phone" type="tel" autocomplete="tel" required />
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" autocomplete="email" required />
-            <label for="service">Service needed</label>
-            <select id="service" name="service" required>
-              <option value="">Select one</option>
-              <option>Interior painting</option>
-              <option>Exterior painting</option>
-              <option>Carpentry</option>
-              <option>Trim carpentry</option>
-              <option>Cabinet installation</option>
-              <option>Window or door installation</option>
-              <option>Drywall repair</option>
-              <option>Handyman repairs</option>
-              <option>Remodeling</option>
-              <option>Flooring & tile</option>
-              <option>Demolition & cleanup</option>
-            </select>
-            <label for="city">Project city/town</label>
-            <input id="city" name="city" type="text" required />
-            <label for="details">Project details</label>
-            <textarea id="details" name="details" rows="4" required></textarea>
-            <button class="btn btn-primary" type="submit">Submit free estimate request</button>
+            <p class="ech-form-progress" data-ech-progress>Step 1 of 6</p>
+            <div class="ech-step is-active">
+              <label for="service">Service needed</label>
+              <select id="service" name="service" required>
+                <option value="">Select one</option>
+                <option>Interior painting</option>
+                <option>Exterior painting</option>
+                <option>Carpentry</option>
+                <option>Trim carpentry</option>
+                <option>Cabinet installation</option>
+                <option>Window or door installation</option>
+                <option>Drywall repair</option>
+                <option>Handyman repairs</option>
+                <option>Remodeling</option>
+                <option>Custom built-ins</option>
+                <option>Flooring & tile</option>
+                <option>Demolition & cleanup</option>
+              </select>
+            </div>
+            <div class="ech-step">
+              <label for="city">Project city/town</label>
+              <input id="city" name="city" type="text" required />
+            </div>
+            <div class="ech-step">
+              <label for="timeline">Desired timeline</label>
+              <select id="timeline" name="timeline">
+                <option value="">Select if known</option>
+                <option>As soon as possible</option>
+                <option>Within 2–4 weeks</option>
+                <option>This season</option>
+                <option>Planning ahead</option>
+              </select>
+            </div>
+            <div class="ech-step">
+              <p>Project photos are optional. You can skip this step and describe the work instead.</p>
+              <label for="photos">Project photos (optional)</label>
+              <input id="photos" type="file" accept="image/*" multiple />
+            </div>
+            <div class="ech-step">
+              <label for="full-name">Full name</label>
+              <input id="full-name" name="fullName" type="text" autocomplete="name" required />
+              <label for="phone">Phone number</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div class="ech-step">
+              <label for="details">Project details</label>
+              <textarea id="details" name="details" rows="4" required></textarea>
+              <p data-ech-review></p>
+              <button class="btn btn-primary" type="submit">Submit free estimate request</button>
+            </div>
+            <div class="ech-form-nav">
+              <button class="btn btn-ghost" type="button" data-ech-back>Back</button>
+              <button class="btn btn-primary" type="button" data-ech-next>Continue</button>
+            </div>
             <p class="form-note">By submitting, you agree to be contacted about your project request.</p>
             <p class="form-success" data-form-success hidden>Thanks! Your estimate request is ready to send.</p>
           </form>
@@ -182,6 +213,7 @@
         <a href="services/handyman.html">Handyman</a>
         <a href="services/remodeling.html">Remodeling</a>
         <a href="locations/index.html">Service Areas</a>
+        <a href="team.html">Team</a>
         <a href="contact.html">Contact</a>
       </nav>
       <div>
@@ -193,6 +225,8 @@
       <p class="footer-copy">&copy; <span data-year></span> Elite Craft Honor LLC. Crafted with excellence and integrity.</p>
     </div>
   </footer>
+  <div class="ech-mobile-estimate"><a class="btn btn-primary" href="contact.html#estimate-form">Get a Free Estimate</a></div>
   <script src="script.js"></script>
+  <script src="premium-interactions.js"></script>
 </body>
 </html>

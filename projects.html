@@ -28,6 +28,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="premium-interactions.css" />
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -74,6 +75,7 @@
         <li><a href="locations/index.html">Service Areas</a></li>
         <li><a href="about.html">About</a></li>
         <li><a class="active" href="projects.html">Gallery</a></li>
+        <li><a href="team.html">Team</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
       <a class="btn btn-contact" href="contact.html#estimate-form">Get a Free Estimate</a>
@@ -90,6 +92,16 @@
     </section>
     <section class="section">
       <div class="container">
+        <div class="ech-filters" data-ech-filters role="group" aria-label="Filter gallery">
+          <button type="button" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" data-filter="painting" aria-pressed="false">Painting</button>
+          <button type="button" data-filter="carpentry" aria-pressed="false">Carpentry</button>
+          <button type="button" data-filter="built-ins" aria-pressed="false">Built-Ins</button>
+          <button type="button" data-filter="vanities" aria-pressed="false">Vanities</button>
+          <button type="button" data-filter="led" aria-pressed="false">LED Features</button>
+          <button type="button" data-filter="repairs" aria-pressed="false">Repairs</button>
+        </div>
+        <p class="ech-empty-note" data-ech-empty hidden>No published photos in this category yet. Painting examples remain available under All and Painting.</p>
         <article class="gallery-column is-reveal">
           <div class="gallery-column-head">
             <small>Exterior painting</small>
@@ -97,14 +109,20 @@
             <p>Siding, trim painting, and entry details from residential work.</p>
           </div>
           <div class="photo-grid photo-grid-zigzag">
-            <figure class="photo-card"><img src="ECH2/01-casa-pintada.jpg" alt="Blue house exterior painting with white trim in Rhode Island" width="1536" height="2048" loading="lazy" /></figure>
-            <figure class="photo-card"><img src="ECH2/02-casa-pintada-lado.jpg" alt="Side elevation of freshly painted blue siding" width="2048" height="1536" loading="lazy" /></figure>
-            <figure class="photo-card"><img src="ECH2/03-casa-azul-pintada.jpg" alt="Dark blue colonial house with white door trim after painting" width="235" height="292" loading="lazy" /></figure>
-            <figure class="photo-card"><img src="ECH2/04-entrada-puerta-azul.jpg" alt="Front entry with blue door and white porch trim painting" width="660" height="989" loading="lazy" /></figure>
-            <figure class="photo-card"><img src="ECH2/06-residencia-costera.jpg" alt="Coastal residence exterior paint and trim work" width="736" height="1097" loading="lazy" /></figure>
-            <figure class="photo-card"><img src="ECH2/07-fachada-costera.jpg" alt="Coastal home facade painting with white trim" width="768" height="511" loading="lazy" /></figure>
+            <figure class="photo-card ech-gallery-item" data-category="painting"><img src="ECH2/01-casa-pintada.jpg" alt="Blue house exterior painting with white trim in Rhode Island" width="1536" height="2048" loading="lazy" /></figure>
+            <figure class="photo-card ech-gallery-item" data-category="painting"><img src="ECH2/02-casa-pintada-lado.jpg" alt="Side elevation of freshly painted blue siding" width="2048" height="1536" loading="lazy" /></figure>
+            <figure class="photo-card ech-gallery-item" data-category="painting"><img src="ECH2/03-casa-azul-pintada.jpg" alt="Dark blue colonial house with white door trim after painting" width="235" height="292" loading="lazy" /></figure>
+            <figure class="photo-card ech-gallery-item" data-category="painting"><img src="ECH2/04-entrada-puerta-azul.jpg" alt="Front entry with blue door and white porch trim painting" width="660" height="989" loading="lazy" /></figure>
+            <figure class="photo-card ech-gallery-item" data-category="painting"><img src="ECH2/06-residencia-costera.jpg" alt="Coastal residence exterior paint and trim work" width="736" height="1097" loading="lazy" /></figure>
+            <figure class="photo-card ech-gallery-item" data-category="painting"><img src="ECH2/07-fachada-costera.jpg" alt="Coastal home facade painting with white trim" width="768" height="511" loading="lazy" /></figure>
           </div>
         </article>
+        <section class="section" aria-labelledby="ech-ba-gallery">
+          <h2 id="ech-ba-gallery">Before &amp; after</h2>
+          <!-- Insert documented same-project photo pairs into data-ech-ba when available. -->
+          <p class="ech-empty-note">Before-and-after pairs are not published yet. The photos above are completed exteriors, not staged comparisons.</p>
+          <p><a class="btn btn-primary" href="contact.html#estimate-form">Plan a Similar Project</a></p>
+        </section>
       </div>
     </section>
         <section class="container cta">
@@ -113,7 +131,7 @@
         <p>Request a painting estimate and share a few photos of the elevations.</p>
       </div>
       <div class="hero-actions" style="margin-bottom:0;">
-        <a class="btn btn-primary" data-track="estimate-click" href="contact.html#estimate-form">Request an Estimate</a>
+        <a class="btn btn-primary" data-track="estimate-click" href="contact.html#estimate-form">Plan a Similar Project</a>
         <a class="btn btn-ghost" href="tel:+1-401-616-0779">Call (401) 616-0779</a>
       </div>
     </section>
@@ -136,6 +154,7 @@
         <a href="services/handyman.html">Handyman</a>
         <a href="services/remodeling.html">Remodeling</a>
         <a href="locations/index.html">Service Areas</a>
+        <a href="team.html">Team</a>
         <a href="contact.html">Contact</a>
       </nav>
       <div>
@@ -147,6 +166,8 @@
       <p class="footer-copy">&copy; <span data-year></span> Elite Craft Honor LLC. Crafted with excellence and integrity.</p>
     </div>
   </footer>
+  <div class="ech-mobile-estimate"><a class="btn btn-primary" href="contact.html#estimate-form">Get a Free Estimate</a></div>
   <script src="script.js"></script>
+  <script src="premium-interactions.js"></script>
 </body>
 </html>
